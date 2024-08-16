@@ -1,11 +1,15 @@
-class Position{
-  int row;
-  int column;
+class Position {
+  final int row;
+  final int column;
 
-  Position(this.column, this.row);
+  const Position(this.column, this.row);
 
   bool isNeighbor(Position other) {
-    return directlyAbove(other) || directlyBelow(other) || directlyLeft(other) || directlyRight(other) || inDiagonal(other);
+    return directlyAbove(other) ||
+        directlyBelow(other) ||
+        directlyLeft(other) ||
+        directlyRight(other) ||
+        inDiagonal(other);
   }
 
   bool directlyAbove(Position other) {
@@ -25,18 +29,19 @@ class Position{
   }
 
   bool inDiagonal(Position other) {
-    if (row + 1 == other.row || row - 1 == other.row) {
-      return column + 1 == other.column || column - 1 == other.column;
-    }
-    return false;
+    return (row + 1 == other.row || row - 1 == other.row) &&
+        (column + 1 == other.column || column - 1 == other.column);
   }
 
   @override
-  bool operator ==(Object other) => other is Position && row == other.row && column == other.column;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Position && row == other.row && column == other.column;
 
   @override
-  int get hashCode => toString().hashCode;
+  int get hashCode => row * 31 + column;
 
+  @override
   String toString() {
     return "($column, $row)";
   }
